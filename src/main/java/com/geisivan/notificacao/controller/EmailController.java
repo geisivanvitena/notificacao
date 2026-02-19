@@ -1,6 +1,6 @@
 package com.geisivan.notificacao.controller;
 
-import com.geisivan.notificacao.business.EmailService;
+import com.geisivan.notificacao.business.service.EmailService;
 import com.geisivan.notificacao.business.dto.TarefaDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
