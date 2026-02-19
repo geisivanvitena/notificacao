@@ -5,34 +5,102 @@
     <title>Notificação de Tarefa</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Helvetica", Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
         }
+
         .container {
-            width: 80%;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
         }
+
         .header {
             text-align: center;
-            color: #333;
+            background-color: #000000;
+            color: white;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
         }
-        .content {
+
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #e0e0e0;
             margin: 20px 0;
         }
-        .footer {
-            text-align: center;
-            color: #555;
+
+        .content p {
+            margin: 12px 0;
+            color: #000000;
         }
+
+        .label {
+            font-weight: bold;
+            color: #000000;
+        }
+
         .important {
             font-weight: bold;
-            color: #d9534f;
+        }
+
+        .badge-alert {
+            background-color: #fd7e14; /* laranja suave */
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .status-box {
+            display: inline-block;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 3px;
+            margin-top: 10px;
+        }
+
+        .status-pendente { background-color: #d1ecf1; color: #0c5460; }
+        .status-notificado { background-color: #d4edda; color: #155724; }
+        .status-cancelado { background-color: #f8d7da; color: #721c24; }
+
+        .description-box {
+            padding: 10px;
+            margin-top: 15px;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .footer {
+            text-align: center;
+            background-color: #000000;
+            color: white;
+            font-size: 14px;
+            margin-top: 30px;
+            padding: 10px;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .footer p:last-child {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        @media screen and (max-width: 480px) {
+            .container { padding: 15px 10px; }
+            .header h1 { font-size: 20px; }
+            body { font-size: 15px; }
         }
     </style>
 </head>
@@ -41,13 +109,40 @@
     <div class="header">
         <h1>Notificação de Tarefa</h1>
     </div>
+    <hr>
     <div class="content">
-        <p>Aviso: Sua tarefa <span class="important" th:text="${nomeTarefa}">Nome da Tarefa</span> está agendada para hoje às <span class="important" th:text="${dataEvento}">Horário</span>.</p>
-        <p>Confira sua descrição:</p>
-        <p th:text="${descricao}">Descrição da Tarefa</p>
+        <p>
+            <span class="label">Tarefa:</span>
+            <span class="important" th:text="${nomeTarefa}">Nome da Tarefa</span>
+        </p>
+
+        <p>
+            <span class="label">Data:</span>
+            <span class="badge-alert" th:text="${#temporals.format(dataEvento, 'dd-MM-yyyy')}">dd-MM-yyyy</span>
+        </p>
+        <p>
+            <span class="label">Hora:</span>
+            <span class="badge-alert" th:text="${#temporals.format(dataEvento, 'HH:mm')}">HH:mm</span>
+        </p>
+
+        <p>
+            <span class="label">Status:</span>
+            <span th:switch="${statusNotificacaoEnum}">
+                <span th:case="'PENDENTE'" class="status-box status-pendente" th:text="${statusNotificacaoEnum}">Pendente</span>
+                <span th:case="'NOTIFICADO'" class="status-box status-notificado" th:text="${statusNotificacaoEnum}">Notificado</span>
+                <span th:case="'CANCELADO'" class="status-box status-cancelado" th:text="${statusNotificacaoEnum}">Cancelado</span>
+            </span>
+        </p>
+
+        <p class="label">Descrição:</p>
+        <div class="description-box">
+            <p th:text="${descricao}">Descrição da Tarefa</p>
+        </div>
     </div>
+    <hr>
     <div class="footer">
         <p>Obrigado por usar nosso sistema de tarefas.</p>
+        <p>&copy; 2026 Sistema de Notificações</p>
     </div>
 </div>
 </body>
