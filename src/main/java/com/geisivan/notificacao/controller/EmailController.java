@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/email")
 public class EmailController {
 
-    public final EmailService emailService;
+    private final EmailService emailService;
 
     @PostMapping
     public ResponseEntity<Void> enviarEmail(@RequestBody TarefaDTO dto){
