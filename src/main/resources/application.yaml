@@ -22,3 +22,15 @@ envio:
 
 server:
   port: 8082
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
