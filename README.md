@@ -1,103 +1,154 @@
-# Microserviço - Notificação (ms-notificacao)
-## Sobre o Projeto
+# Microserviço de Notificação (ms-notificacao)
 
-O ms-notificacao é um microserviço responsável pelo processamento e envio de notificações do sistema por email.
+### Contexto do Projeto
 
-Ele atua de forma independente e desacoplada, integrando-se aos demais microserviços por meio de APIs REST, garantindo escalabilidade e separação de responsabilidades na arquitetura.
+O ms-notificacao é uma API REST desenvolvida em Java com Spring Boot e faz parte do projeto Agendador de Tarefas, construído com base em arquitetura de microserviços.
 
-##
+Este microserviço é responsável pelo processamento e envio de notificações por e-mail dentro do ecossistema da aplicação.
 
-## Arquitetura do Sistema
-
-### O microserviço é responsável por:
-
-● Envio de notificações por e-mail
-
-● Processamento de solicitações vindas de outros microserviços
-
-● Gerenciamento do status das notificações
-
-● Integração com a arquitetura de microserviços
-
-### Fluxo do sistema:
-
-● Cliente → BFF → Microserviço de Notificação → Serviço de envio de e-mail
-
-## Segurança
-
-A API pode ser protegida e integrada com mecanismos de autenticação do ecossistema, garantindo que apenas serviços autorizados possam solicitar envio de notificações.
-
-A comunicação ocorre via APIs REST dentro da arquitetura de microserviços.
+Ele atua de forma independente e desacoplada, sendo acionado por outros serviços — principalmente pelo BFF e pelo microserviço de agendamento — sempre que uma notificação precisa ser enviada.
 
 ##
 
-## Documentação da API (Swagger)
+### Papel na Arquitetura de Microserviços
 
-### A documentação da API pode ser acessada em:
+Na arquitetura do Agendador de Tarefas, cada serviço possui responsabilidade única e bem definida.
 
-●  http://localhost:8082/swagger-ui.html
+O ms-notificacao é responsável por:
 
-## Tecnologias Utilizadas
+● Receber solicitações de envio de notificação
+
+● Processar requisições vindas de outros microserviços
+
+● Realizar envio de e-mails
+
+● Gerenciar o status das notificações
+
+● Expor métricas e monitoramento da aplicação
+
+A comunicação ocorre via HTTP utilizando padrão REST, com troca de dados em formato JSON.
+
+Fluxo arquitetural:
+
+Cliente → BFF → ms-notificacao → Serviço de envio de e-mail
+
+Essa abordagem garante:
+
+● Separação clara de responsabilidades
+
+● Desacoplamento entre domínio de tarefas e envio de notificações
+
+● Escalabilidade independente do serviço de e-mail
+
+● Facilidade de manutenção
+
+##
+
+### API REST
+
+O ms-notificacao expõe endpoints REST stateless utilizando:
+
+● Métodos HTTP (POST para envio de notificações, entre outros)
+
+● Representação de recursos em JSON
+
+● Comunicação síncrona via HTTP dentro da arquitetura
+
+O serviço segue os princípios REST e não mantém estado entre requisições.
+
+##
+
+### Segurança
+
+A API pode ser integrada ao mecanismo de autenticação centralizado do sistema, utilizando JWT emitido pelo ms-usuarios.
+
+Dessa forma, apenas serviços autorizados conseguem solicitar o envio de notificações.
+
+##
+
+### Observabilidade
+
+O microserviço utiliza Spring Boot Actuator para monitoramento e exposição de métricas operacionais.
+
+Os endpoints de gerenciamento permitem:
+
+● Healthcheck da aplicação
+
+● Monitoramento de disponibilidade
+
+● Exposição de métricas
+
+●Informações do ambiente
+
+Exemplo de endpoint:
+
+http://localhost:8082/actuator/health
+
+A utilização do Actuator permite monitorar a disponibilidade do serviço de notificação dentro do ecossistema distribuído.
+
+##
+
+### Tecnologias Utilizadas
 
 ● Java 17
 
 ● Spring Boot
 
-● Spring Web (REST)
+● Spring Web
+
+● Spring Actuator
 
 ● Gradle
 
 ● Docker
 
-## Pré-requisitos
+##
 
-### Antes de executar o projeto você precisa ter instalado:
+### Documentação da API
 
-● Java 17
+A documentação da API está disponível via Swagger:
 
-●Gradle
-
-ou
-
-● Docker
+http://localhost:8082/swagger-ui.html
 
 ##
 
-## Como Executar o Projeto
+### Execução do Projeto
 
-### Executando via Gradle
+1. Execução via Gradle
 
-●  ./gradlew bootRun
+./gradlew bootRun
 
-### Executando via Docker
+2. Execução via Docker
 
-●  Build da imagem:
+Build da imagem:
 
-●  docker build -t ms-notificacao .
+docker build -t ms-notificacao .
 
-### Executar o container:
+3. Executar o container:
 
-●  docker run -p 8082:8082 ms-notificacao
+docker run -p 8082:8082 ms-notificacao
+
+##
 
 ### Endpoints Expostos
 
-●  Serviço	Porta
-
-●  Notificação API	8082
+| Serviço         |	Porta |
+|-----------------|-------| 
+| Notificação API	| 8082  |
 
 ##
 
-## Benefícios da Arquitetura
+## Benefícios Arquiteturais
 
 ● Desacoplamento entre serviços
 
-● Escalabilidade
+● Escalabilidade independente
 
 ● Organização modular
 
 ● Containerização com Docker
 
-● Pipeline de CI/CD com GitHub Actions
+● Observabilidade integrada via Actuator
 
 ##
 
@@ -105,15 +156,17 @@ ou
 
 ● Implementar mensageria (RabbitMQ ou Kafka)
 
-● Adicionar monitoramento com Actuator
-
 ● Retry automático para falhas de envio
+
+● Estratégias de resiliência
 
 ● Deploy em ambiente Cloud
 
 ##
 
-Desenvolvido por **Geisivan Vitena**
+### Autor
+
+**Geisivan Vitena**
 
 LinkedIn:  
 https://www.linkedin.com/in/geisivan-vitena-a46168246/
