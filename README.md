@@ -6,7 +6,7 @@ O ms-notificacao é uma API REST desenvolvida em Java com Spring Boot e faz part
 
 Este microserviço é responsável pelo processamento e envio de notificações por e-mail dentro do ecossistema da aplicação.
 
-Ele atua de forma independente e desacoplada, sendo acionado por outros serviços — principalmente pelo BFF e pelo microserviço de agendamento — sempre que uma notificação precisa ser enviada.
+Ele atua de forma independente e desacoplada, sendo acionado por outros serviços principalmente pelo BFF e pelo microserviço de agendamento sempre que uma notificação precisa ser enviada.
 
 ##
 
@@ -78,13 +78,21 @@ Os endpoints de gerenciamento permitem:
 
 ● Exposição de métricas
 
-●Informações do ambiente
+● Informações do ambiente
 
 Exemplo de endpoint:
 
-http://localhost:8082/actuator/health
+    http://localhost:8082/actuator/health
 
 A utilização do Actuator permite monitorar a disponibilidade do serviço de notificação dentro do ecossistema distribuído.
+
+##
+
+### Documentação da API
+
+A documentação da API está disponível via Swagger:
+
+    http://localhost:8082/swagger-ui.html
 
 ##
 
@@ -104,32 +112,6 @@ A utilização do Actuator permite monitorar a disponibilidade do serviço de no
 
 ##
 
-### Documentação da API
-
-A documentação da API está disponível via Swagger:
-
-http://localhost:8082/swagger-ui.html
-
-##
-
-### Execução do Projeto
-
-1. Execução via Gradle
-
-./gradlew bootRun
-
-2. Execução via Docker
-
-Build da imagem:
-
-docker build -t ms-notificacao .
-
-3. Executar o container:
-
-docker run -p 8082:8082 ms-notificacao
-
-##
-
 ### Endpoints Expostos
 
 | Serviço         |	Porta |
@@ -138,7 +120,21 @@ docker run -p 8082:8082 ms-notificacao
 
 ##
 
-## Benefícios Arquiteturais
+### Execução do Projeto
+
+Gradle
+
+    ./gradlew bootRun
+
+Docker
+
+    docker build -t notificacao-api .
+
+    docker run -p 8082:8082 notificacao-api
+
+##
+
+### Benefícios Arquiteturais
 
 ● Desacoplamento entre serviços
 
@@ -152,7 +148,7 @@ docker run -p 8082:8082 ms-notificacao
 
 ##
 
-## Melhorias Futuras
+### Melhorias Futuras
 
 ● Implementar mensageria (RabbitMQ ou Kafka)
 
