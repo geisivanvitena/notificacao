@@ -1,4 +1,4 @@
-package com.geisivan.notificacao.infraStructure;
+package com.geisivan.notificacao.infraStructure.exceptions;
 
 import org.springframework.http.HttpStatus;
 
