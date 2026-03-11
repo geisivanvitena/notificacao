@@ -7,6 +7,12 @@
 ![Dependências Seguras](https://img.shields.io/badge/dependencies-secure-brightgreen)
 ![GitHub Actions](https://github.com/geisivanvitena/notificacao/actions/workflows/gradle.yml/badge.svg)
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_notificacao&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=geisivanvitena_notificacao)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_notificacao&metric=bugs)](https://sonarcloud.io/summary/new_code?id=geisivanvitena_notificacao)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_notificacao&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=geisivanvitena_notificacao)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_notificacao&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=geisivanvitena_notificacao)
+[![Duplications](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_notificacao&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=geisivanvitena_notificacao)
+
 ---
 
 ### Contexto do Projeto
