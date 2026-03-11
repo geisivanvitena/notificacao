@@ -1,6 +1,6 @@
-package com.geisivan.notificacao.infraStructure.exceptions;
+package com.geisivan.notificacao.infrastructure.exceptions;
 
-import com.geisivan.notificacao.infraStructure.exceptions.dto.ErrorResponseDTO;
+import com.geisivan.notificacao.infrastructure.exceptions.dto.ErrorResponseDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

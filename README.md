@@ -1,116 +1,137 @@
 # Microserviço de Notificação (ms-notificacao)
 
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
+![Java 17](https://img.shields.io/badge/java-17-brightgreen)
+![Spring Boot 3.3.5](https://img.shields.io/badge/spring_boot-3.3.5-brightgreen)
+![Gradle 8.3](https://img.shields.io/badge/gradle-8.3-blue)
+![Dependências Seguras](https://img.shields.io/badge/dependencies-secure-brightgreen)
+![GitHub Actions](https://github.com/geisivanvitena/notificacao/actions/workflows/gradle.yml/badge.svg)
+
+---
+
 ### Contexto do Projeto
 
-O ms-notificacao é uma API REST desenvolvida em Java com Spring Boot e faz parte do projeto Agendador de Tarefas, construído com base em arquitetura de microserviços.
+O **ms-notificacao** é uma API REST desenvolvida em **Java com Spring Boot** e faz parte do projeto **Agendador de Tarefas**, construído com base em arquitetura de microserviços.
 
 Este microserviço é responsável pelo processamento e envio de notificações por e-mail dentro do ecossistema da aplicação.
 
-Ele atua de forma independente e desacoplada, sendo acionado por outros serviços principalmente pelo BFF e pelo microserviço de agendamento sempre que uma notificação precisa ser enviada.
+Ele atua de forma independente e desacoplada, sendo acionado por outros serviços principalmente pelo **BFF** e pelo microserviço de **agendamento** sempre que uma notificação precisa ser enviada.
 
-##
+O microserviço está **dockerizado**, permitindo execução isolada, portabilidade e integração rápida com o ecossistema de microserviços.
+
+---
 
 ### Papel na Arquitetura de Microserviços
 
 Na arquitetura do Agendador de Tarefas, cada serviço possui responsabilidade única e bem definida.
 
-O ms-notificacao é responsável por:
+O **ms-notificacao** é responsável por:
 
-● Receber solicitações de envio de notificação
+- Receber solicitações de envio de notificação
 
-● Processar requisições vindas de outros microserviços
+- Processar requisições vindas de outros microserviços
 
-● Realizar envio de e-mails
+- Realizar envio de e-mails
 
-● Gerenciar o status das notificações
+- Gerenciar o status das notificações
 
-● Expor métricas e monitoramento da aplicação
+- Expor métricas e monitoramento da aplicação
 
-A comunicação ocorre via HTTP utilizando padrão REST, com troca de dados em formato JSON.
+A comunicação ocorre via **HTTP** utilizando padrão REST, com troca de dados em formato **JSON**.
 
-Fluxo arquitetural:
+**Fluxo arquitetural:**
 
-Cliente → BFF → ms-notificacao → Serviço de envio de e-mail
+    Cliente → BFF → ms-notificacao → Serviço de envio de e-mail
 
-Essa abordagem garante:
+**Essa abordagem garante:**
 
-● Separação clara de responsabilidades
+- Separação clara de responsabilidades
 
-● Desacoplamento entre domínio de tarefas e envio de notificações
+- Desacoplamento entre domínio de tarefas e envio de notificações
 
-● Escalabilidade independente do serviço de e-mail
+- Escalabilidade independente do serviço de e-mail
 
-● Facilidade de manutenção
+- Facilidade de manutenção
 
-##
+---
 
 ### API REST
 
-O ms-notificacao expõe endpoints REST stateless utilizando:
+O **ms-notificacao** expõe endpoints REST **stateless** utilizando:
 
-● Métodos HTTP (POST para envio de notificações, entre outros)
+- Método HTTP (POST para envio de notificações)
 
-● Representação de recursos em JSON
+- Representação de recursos em JSON
 
-● Comunicação síncrona via HTTP dentro da arquitetura
+- Comunicação síncrona via HTTP dentro da arquitetura
 
 O serviço segue os princípios REST e não mantém estado entre requisições.
 
-##
+---
+
+#### Integração com OpenFeign
+
+O **ms-notificacao** utiliza **OpenFeign** para comunicação declarativa entre microserviços, permitindo:
+
+- Redução de código boilerplate
+- Padronização de chamadas HTTP
+- Facilidade na manutenção de endpoints remotos
+
+---
 
 ### Segurança
 
-A API pode ser integrada ao mecanismo de autenticação centralizado do sistema, utilizando JWT emitido pelo ms-usuarios.
+A API pode ser integrada ao mecanismo de autenticação centralizado do sistema, utilizando JWT emitido pelo **ms-usuarios**.
 
 Dessa forma, apenas serviços autorizados conseguem solicitar o envio de notificações.
 
-##
+---
 
 ### Observabilidade
 
-O microserviço utiliza Spring Boot Actuator para monitoramento e exposição de métricas operacionais.
+O microserviço utiliza **Spring Boot Actuator** para monitoramento e exposição de métricas operacionais.
 
-Os endpoints de gerenciamento permitem:
+**Os endpoints de gerenciamento permitem:**
 
-● Healthcheck da aplicação
+- Healthcheck da aplicação
 
-● Monitoramento de disponibilidade
+- Monitoramento de disponibilidade
 
-● Exposição de métricas
+- Exposição de métricas
 
-● Informações do ambiente
+- Informações do ambiente
 
-Exemplo de endpoint:
+**Exemplo de endpoint:**
 
     http://localhost:8082/actuator/health
 
 A utilização do Actuator permite monitorar a disponibilidade do serviço de notificação dentro do ecossistema distribuído.
 
-##
+---
 
 ### Documentação da API
 
-A documentação da API está disponível via Swagger:
+A documentação da API está disponível via **Swagger:**
 
     http://localhost:8082/swagger-ui.html
 
-##
+---
 
 ### Tecnologias Utilizadas
 
-● Java 17
+- Java 17
 
-● Spring Boot
+- Spring Boot
 
-● Spring Web
+- Spring Web
 
-● Spring Actuator
+- Spring Actuator
 
-● Gradle
+- Gradle
 
-● Docker
+- Docker
 
-##
+---
 
 ### Endpoints Expostos
 
@@ -118,47 +139,51 @@ A documentação da API está disponível via Swagger:
 |-----------------|-------| 
 | Notificação API	| 8082  |
 
-##
+---
 
 ### Execução do Projeto
 
-Gradle
+**Gradle**
 
     ./gradlew bootRun
 
-Docker
+**Docker**
 
     docker build -t notificacao-api .
 
     docker run -p 8082:8082 notificacao-api
 
-##
+O uso de Docker permite rodar o serviço de forma isolada, consistente em qualquer ambiente e facilita o deploy em produção ou integração com outros microserviços.
+
+---
 
 ### Benefícios Arquiteturais
 
-● Desacoplamento entre serviços
+- Desacoplamento entre serviços
 
-● Escalabilidade independente
+- Escalabilidade independente
 
-● Organização modular
+- Organização modular
 
-● Containerização com Docker
+- Containerização via Docker, garantindo portabilidade, isolamento e facilidade de deploy
 
-● Observabilidade integrada via Actuator
+- Observabilidade integrada via Actuator
 
-##
+---
 
 ### Melhorias Futuras
 
-● Implementar mensageria (RabbitMQ ou Kafka)
+- Implementar mensageria (RabbitMQ ou Kafka)
 
-● Retry automático para falhas de envio
+- Retry automático para falhas de envio
 
-● Estratégias de resiliência
+- Estratégias de resiliência
 
-● Deploy em ambiente Cloud
+- Implementação de testes automatizados (unitários e de integração)
 
-##
+- Deploy em ambiente Cloud
+
+---
 
 ### Autor
 
