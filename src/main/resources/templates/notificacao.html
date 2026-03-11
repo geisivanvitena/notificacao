@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notificação de Tarefa</title>
     <style>
         body {
@@ -57,8 +59,8 @@
         }
 
         .badge-alert {
-            background-color: #fd7e14; /* laranja suave */
-            color: white;
+            background-color: #c05600;
+            color: #ffffff;
             padding: 3px 8px;
             border-radius: 4px;
         }
@@ -106,11 +108,11 @@
 </head>
 <body>
 <div class="container">
-    <div class="header">
+    <header class="header">
         <h1>Notificação de Tarefa</h1>
-    </div>
+    </header>
     <hr>
-    <div class="content">
+    <main class="content">
         <p>
             <span class="label">Tarefa:</span>
             <span class="important" th:text="${nomeTarefa}">Nome da Tarefa</span>
@@ -138,12 +140,12 @@
         <div class="description-box">
             <p th:text="${descricao}">Descrição da Tarefa</p>
         </div>
-    </div>
+    </main>
     <hr>
-    <div class="footer">
+    <footer class="footer">
         <p>Obrigado por usar nosso sistema de tarefas.</p>
         <p>&copy; 2026 Sistema de Notificações</p>
-    </div>
+    </footer>
 </div>
 </body>
 </html>

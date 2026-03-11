@@ -1,6 +1,6 @@
 package com.geisivan.notificacao.infrastructure.exceptions;
 
-import com.geisivan.notificacao.infrastructure.exceptions.dto.ErrorResponseDTO;
+import com.geisivan.notificacao.infrastructure.dto.ErrorResponseDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
     // Business exceptions
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ErrorResponseDTO> handleApiException(ApiException exception,
-                                                     HttpServletRequest request) {
+                                                               HttpServletRequest request) {
         ErrorResponseDTO error = buildError(
                 exception.getStatus(),
                 exception.getMessage(),
