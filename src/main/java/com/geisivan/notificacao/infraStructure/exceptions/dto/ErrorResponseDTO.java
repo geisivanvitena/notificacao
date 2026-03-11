@@ -1,4 +1,4 @@
-package com.geisivan.notificacao.infraStructure.exceptions.dto;
+package com.geisivan.notificacao.infrastructure.exceptions.dto;
 
 import lombok.*;
 import java.time.LocalDateTime;

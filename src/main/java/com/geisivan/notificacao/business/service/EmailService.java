@@ -1,7 +1,7 @@
 package com.geisivan.notificacao.business.service;
 
 import com.geisivan.notificacao.business.dto.TarefaDTO;
-import com.geisivan.notificacao.infraStructure.exceptions.EmailException;
+import com.geisivan.notificacao.infrastructure.exceptions.EmailException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
