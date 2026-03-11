@@ -8,6 +8,7 @@ class NotificacaoApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// Este teste apenas verifica se o contexto da aplicação Spring Boot
+		// é carregado corretamente. Não é necessário implementar lógica aqui.
 	}
-
 }
