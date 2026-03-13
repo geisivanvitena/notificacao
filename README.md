@@ -1,5 +1,7 @@
 # Microserviço de Notificação (ms-notificacao)
 
+<div align="center">
+
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
 ![Java 17](https://img.shields.io/badge/java-17-brightgreen)
 ![Spring Boot 3.3.5](https://img.shields.io/badge/spring_boot-3.3.5-brightgreen)
@@ -12,6 +14,7 @@
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_notificacao&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=geisivanvitena_notificacao)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_notificacao&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=geisivanvitena_notificacao)
 [![Duplications](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_notificacao&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=geisivanvitena_notificacao)
+</div>
 
 ---
 
@@ -19,77 +22,79 @@
 
 O **ms-notificacao** é uma API REST desenvolvida em **Java com Spring Boot** e faz parte do projeto **Agendador de Tarefas**, construído com base em arquitetura de microserviços.
 
-Este microserviço é responsável pelo processamento e envio de notificações por e-mail dentro do ecossistema da aplicação.
+**Este microserviço é responsável por:** 
 
-Ele atua de forma independente e desacoplada, sendo acionado por outros serviços principalmente pelo **BFF** e pelo microserviço de **agendamento** sempre que uma notificação precisa ser enviada.
+- Processar notificações de tarefas
+- Gerar conteúdo de e-mails a partir de templates HTML
+- Enviar notificações para os usuários
+- Gerenciar o status das notificações
+
+O serviço recebe requisições principalmente do **BFF**, que executa um **cron scheduler** responsável por identificar tarefas próximas e disparar notificações automaticamente.
 
 O microserviço está **dockerizado**, permitindo execução isolada, portabilidade e integração rápida com o ecossistema de microserviços.
 
 ---
 
-### Papel na Arquitetura de Microserviços
+### Arquitetura do Sistema
 
-Na arquitetura do Agendador de Tarefas, cada serviço possui responsabilidade única e bem definida.
+O sistema **Agendador de Tarefas** é composto por múltiplos microserviços especializados que trabalham de forma independente.
 
-O **ms-notificacao** é responsável por:
+O **ms-notificacao** é responsável exclusivamente pelo envio de notificações por e-mail.
 
-- Receber solicitações de envio de notificação
+#### Diagrama da Arquitetura
 
-- Processar requisições vindas de outros microserviços
+<div align="center">
+  <img src="images/fluxograma.png" width="700px">
+</div>
 
-- Realizar envio de e-mails
+**Descrição do fluxo**
 
-- Gerenciar o status das notificações
+1. O cliente realiza autenticação através do **ms-usuarios**.
+2. O **ms-usuarios** gera um token JWT.
+3. O cliente envia requisições autenticadas para o **BFF**.
+4. O BFF executa um **cron scheduler** responsável por verificar tarefas agendadas.
+5. O BFF consulta o **ms-tarefas** para identificar tarefas próximas do horário de execução.
+6. Para cada tarefa identificada, o **BFF chama o ms-notificacao**.
+7. O **ms-notificacao** gera o conteúdo do e-mail utilizando **Thymeleaf**.
+8. O serviço envia o e-mail através do **JavaMailSender**.
 
-- Expor métricas e monitoramento da aplicação
-
-A comunicação ocorre via **HTTP** utilizando padrão REST, com troca de dados em formato **JSON**.
-
-**Fluxo arquitetural:**
-
-    Cliente → BFF → ms-notificacao → Serviço de envio de e-mail
-
-**Essa abordagem garante:**
+**Benefícios dessa arquitetura:**
 
 - Separação clara de responsabilidades
-
-- Desacoplamento entre domínio de tarefas e envio de notificações
-
-- Escalabilidade independente do serviço de e-mail
-
-- Facilidade de manutenção
-
----
-
-### API REST
-
-O **ms-notificacao** expõe endpoints REST **stateless** utilizando:
-
-- Método HTTP (POST para envio de notificações)
-
-- Representação de recursos em JSON
-
-- Comunicação síncrona via HTTP dentro da arquitetura
-
-O serviço segue os princípios REST e não mantém estado entre requisições.
+- Segurança centralizada
+- Escalabilidade independente
+- Organização modular da aplicação
 
 ---
 
 #### Integração com OpenFeign
 
-O **ms-notificacao** utiliza **OpenFeign** para comunicação declarativa entre microserviços, permitindo:
+A comunicação entre os microserviços da arquitetura ocorre através do **Spring Cloud OpenFeign**.
+
+O **BFF** utiliza OpenFeign para realizar chamadas HTTP declarativas para o **ms-notificacao**, permitindo o envio de notificações quando tarefas precisam gerar alertas para os usuários.
+
+**Essa abordagem garante:**
 
 - Redução de código boilerplate
-- Padronização de chamadas HTTP
+- Padronização de chamadas HTTP entre microserviços
 - Facilidade na manutenção de endpoints remotos
+- Comunicação eficiente entre o **BFF** e o **ms-notificacao**
+
+Dessa forma, o **ms-notificacao** permanece responsável apenas pelo processamento e envio das notificações, mantendo baixo acoplamento com os demais serviços da arquitetura.
 
 ---
 
 ### Segurança
 
-A API pode ser integrada ao mecanismo de autenticação centralizado do sistema, utilizando JWT emitido pelo **ms-usuarios**.
+Apenas usuários autenticados podem **criar e gerenciar tarefas** no **ms-tarefas**.
 
-Dessa forma, apenas serviços autorizados conseguem solicitar o envio de notificações.
+Posteriormente, o **BFF** pode acionar o **ms-notificacao** para enviar notificações relacionadas a essas tarefas.
+
+**Essa abordagem garante:**
+
+- Comunicação segura entre microserviços
+- Controle de acesso
+- Autenticação centralizada
 
 ---
 
@@ -97,21 +102,34 @@ Dessa forma, apenas serviços autorizados conseguem solicitar o envio de notific
 
 O microserviço utiliza **Spring Boot Actuator** para monitoramento e exposição de métricas operacionais.
 
-**Os endpoints de gerenciamento permitem:**
+**Endpoints disponíveis:**
 
 - Healthcheck da aplicação
-
 - Monitoramento de disponibilidade
-
-- Exposição de métricas
-
-- Informações do ambiente
+- Informações da aplicação
+- Métricas operacionais
 
 **Exemplo de endpoint:**
 
     http://localhost:8082/actuator/health
 
-A utilização do Actuator permite monitorar a disponibilidade do serviço de notificação dentro do ecossistema distribuído.
+A utilização do Actuator permite acompanhar a saúde do serviço dentro da arquitetura distribuída.
+
+---
+
+### API REST
+
+O **ms-notificacao** expõe endpoints REST **stateless**:
+
+- Método HTTP: POST
+- Representação de recursos em JSON
+- Comunicação HTTP dentro da arquitetura distribuída
+
+**Endpoint principal:**
+
+| Método | Endpoint | Descrição |
+|------|------|------|
+| POST | /email | Enviar notificação por e-mail |
 
 ---
 
@@ -126,24 +144,13 @@ A documentação da API está disponível via **Swagger:**
 ### Tecnologias Utilizadas
 
 - Java 17
-
 - Spring Boot
-
 - Spring Web
-
+- Spring Mail
+- Thymeleaf
 - Spring Actuator
-
 - Gradle
-
 - Docker
-
----
-
-### Endpoints Expostos
-
-| Serviço         |	Porta |
-|-----------------|-------| 
-| Notificação API	| 8082  |
 
 ---
 
@@ -159,34 +166,27 @@ A documentação da API está disponível via **Swagger:**
 
     docker run -p 8082:8082 notificacao-api
 
-O uso de Docker permite rodar o serviço de forma isolada, consistente em qualquer ambiente e facilita o deploy em produção ou integração com outros microserviços.
-
 ---
 
 ### Benefícios Arquiteturais
 
-- Desacoplamento entre serviços
-
+- Separação clara de responsabilidades
+- Serviço dedicado ao envio de notificações
+- Templates de e-mail dinâmicos com Thymeleaf
+- Integração com outros microserviços
 - Escalabilidade independente
-
-- Organização modular
-
-- Containerização via Docker, garantindo portabilidade, isolamento e facilidade de deploy
-
+- Containerização com Docker
 - Observabilidade integrada via Actuator
+- Arquitetura modular baseada em microserviços
 
 ---
 
 ### Melhorias Futuras
 
 - Implementar mensageria (RabbitMQ ou Kafka)
-
 - Retry automático para falhas de envio
-
 - Estratégias de resiliência
-
 - Implementação de testes automatizados (unitários e de integração)
-
 - Deploy em ambiente Cloud
 
 ---
